@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>e-SUKA — Electric Agricultural Tiller | Living Lab Rwanda</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --dark:        #0b0f0a;
+      --dark-mid:    #141a11;
+      --dark-card:   #1b221a;
+      --green-deep:  #2e5c1a;
+      --green-main:  #4a8c2a;
+      --green-bright:#6bbf3e;
+      --green-light: #a8d880;
+      --light-bg:    #f4f1eb;
+      --text-light:  #e9e3d6;
+      --text-muted:  #8a9480;
+      --text-dark:   #1a1f18;
+      --text-body:   #3a4035;
+      --border-dark: rgba(255,255,255,0.08);
+      --border-light:rgba(0,0,0,0.09);
+      --font-serif:  'Playfair Display', Georgia, serif;
+      --font-sans:   'Inter', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: var(--font-sans); background: var(--dark); color: var(--text-light); overflow-x: hidden; }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--dark); }
+    ::-webkit-scrollbar-thumb { background: var(--green-main); border-radius: 3px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 56px; height: 68px;
+      background: rgba(11,15,10,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-dark);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo img { height: 34px; width: auto; }
+    .nav-logo-text {
+      font-family: var(--font-sans); font-weight: 700; font-size: 0.82rem;
+      letter-spacing: 0.05em; color: #fff; line-height: 1.2;
+    }
+    .nav-links { display: flex; align-items: center; gap: 38px; list-style: none; }
+    .nav-links a {
+      text-decoration: none; font-size: 0.88rem; font-weight: 500;
+      color: rgba(255,255,255,0.72); letter-spacing: 0.02em; transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: #fff; }
+    .nav-cta { display: flex; align-items: center; gap: 14px; }
+    .btn-ghost {
+      font-size: 0.86rem; font-weight: 500; color: rgba(255,255,255,0.65);
+      background: none; border: none; text-decoration: none; transition: color 0.2s; cursor: pointer;
+    }
+    .btn-ghost:hover { color: #fff; }
+    .btn-primary {
+      font-size: 0.86rem; font-weight: 600; color: #fff;
+      background: var(--green-main); border: none; border-radius: 100px; padding: 10px 22px;
+      text-decoration: none; transition: background 0.2s; white-space: nowrap;
+    }
+    .btn-primary:hover { background: var(--green-bright); }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--green-main); margin-bottom: 28px;
+    }
+    .section-label-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green-bright); }
+
+    /* ── FADE ANIMATION ── */
+    .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ══════════════════════════════════════════
+       HERO — full-height video
+    ══════════════════════════════════════════ */
+    #hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; text-align: center;
+    }
+    .hero-video-wrap {
+      position: absolute; inset: 0; z-index: 1;
+    }
+    .hero-video-wrap video {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .hero-video-overlay {
+      position: absolute; inset: 0; z-index: 2;
+      background: rgba(0,0,0,0.62);
+    }
+    .hero-content {
+      position: relative; z-index: 3;
+      padding: 120px 24px 60px;
+      max-width: 860px;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--green-bright); border: 1px solid rgba(107,191,62,0.35);
+      border-radius: 100px; padding: 6px 16px; margin-bottom: 32px;
+    }
+    .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-bright); }
+    .hero-title {
+      font-family: var(--font-serif); font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 900; line-height: 1.05; letter-spacing: -0.02em;
+      color: #fff; margin-bottom: 24px;
+    }
+    .hero-title em { font-style: italic; color: var(--green-bright); }
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem); color: rgba(255,255,255,0.72);
+      line-height: 1.65; margin-bottom: 48px; max-width: 600px; margin-left: auto; margin-right: auto;
+    }
+    .hero-cta { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .btn-green-lg {
+      display: inline-flex; align-items: center; gap: 8px; font-size: 0.95rem; font-weight: 600;
+      color: #fff; background: var(--green-main); border-radius: 100px; padding: 15px 34px;
+      text-decoration: none; transition: background 0.2s, transform 0.15s;
+    }
+    .btn-green-lg:hover { background: var(--green-bright); transform: translateY(-2px); }
+    .btn-outline-white {
+      display: inline-flex; align-items: center; gap: 8px; font-size: 0.95rem; font-weight: 500;
+      color: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.3); border-radius: 100px;
+      padding: 15px 34px; text-decoration: none; transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline-white:hover { border-color: #fff; color: #fff; }
+    .hero-scroll {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); z-index: 3;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+    .hero-scroll-line { width: 1px; height: 40px; background: rgba(255,255,255,0.2); }
+
+    /* ══════════════════════════════════════════
+       OVERVIEW — dark, specs grid
+    ══════════════════════════════════════════ */
+    #overview {
+      background: var(--dark-mid); padding: 100px 80px;
+      border-top: 1px solid var(--border-dark);
+    }
+    .overview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .overview-text h2 {
+      font-family: var(--font-serif); font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700; line-height: 1.15; letter-spacing: -0.02em;
+      color: #fff; margin-bottom: 24px;
+    }
+    .overview-text p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 16px; }
+    .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .spec-card {
+      background: var(--dark-card); border: 1px solid var(--border-dark);
+      border-radius: 14px; padding: 22px 24px;
+    }
+    .spec-label {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-muted); margin-bottom: 8px;
+    }
+    .spec-value {
+      font-family: var(--font-serif); font-size: 2rem; font-weight: 700; color: #fff; line-height: 1;
+    }
+    .spec-unit { font-family: var(--font-sans); font-size: 0.8rem; font-weight: 500; color: var(--green-bright); margin-left: 4px; }
+
+    /* ══════════════════════════════════════════
+       CATALOG — light, full product view
+    ══════════════════════════════════════════ */
+    #catalog {
+      background: var(--light-bg); color: var(--text-dark); padding: 100px 80px;
+    }
+    .catalog-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; }
+    .catalog-text h2 {
+      font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 700; line-height: 1.15; letter-spacing: -0.02em;
+      color: var(--text-dark); margin-bottom: 20px;
+    }
+    .catalog-text p { font-size: 0.92rem; color: var(--text-body); line-height: 1.8; margin-bottom: 16px; }
+    .feature-list { list-style: none; margin-top: 28px; display: flex; flex-direction: column; gap: 12px; }
+    .feature-list li {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 0.88rem; color: var(--text-body); line-height: 1.5;
+    }
+    .feature-list li::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green-main); flex-shrink: 0; margin-top: 6px;
+    }
+    .catalog-image-wrap {
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.14);
+      background: #fff;
+    }
+    .catalog-image-wrap img { width: 100%; display: block; object-fit: contain; padding: 24px; }
+
+    /* ══════════════════════════════════════════
+       EXPLODED — dark, parts breakdown
+    ══════════════════════════════════════════ */
+    #exploded {
+      background: var(--dark); padding: 100px 80px;
+      border-top: 1px solid var(--border-dark);
+    }
+    .exploded-header { text-align: center; margin-bottom: 64px; }
+    .exploded-header h2 {
+      font-family: var(--font-serif); font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700; color: #fff; letter-spacing: -0.02em; margin-bottom: 16px;
+    }
+    .exploded-header p { font-size: 0.95rem; color: var(--text-muted); max-width: 540px; margin: 0 auto; line-height: 1.7; }
+    .exploded-image-wrap {
+      border-radius: 20px; overflow: hidden;
+      border: 1px solid var(--border-dark);
+      background: #fff; margin-bottom: 56px;
+    }
+    .exploded-image-wrap img { width: 100%; display: block; object-fit: contain; padding: 40px; max-height: 620px; }
+    .parts-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .part-card {
+      background: var(--dark-card); border: 1px solid var(--border-dark);
+      border-radius: 12px; padding: 20px;
+    }
+    .part-num {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--green-bright); margin-bottom: 6px;
+    }
+    .part-name { font-size: 0.85rem; font-weight: 600; color: #fff; }
+
+    /* ══════════════════════════════════════════
+       TRANSPORT — Extension module
+    ══════════════════════════════════════════ */
+    #transport {
+      background: var(--dark); padding: 100px 80px;
+      border-top: 1px solid var(--border-dark);
+    }
+    .transport-intro {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 72px;
+    }
+    .transport-text h2 {
+      font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 700; line-height: 1.15; letter-spacing: -0.02em;
+      color: #fff; margin-bottom: 20px;
+    }
+    .transport-text p { font-size: 0.93rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 14px; }
+    .transport-problems { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .tp-card {
+      background: var(--dark-card); border: 1px solid var(--border-dark);
+      border-left: 3px solid var(--green-bright); border-radius: 12px; padding: 20px 22px;
+    }
+    .tp-card h4 { font-size: 0.85rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .tp-card p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.6; }
+    .transport-image-wrap {
+      border-radius: 20px; overflow: hidden;
+      border: 1px solid var(--border-dark); background: #fff;
+    }
+    .transport-image-wrap img { width: 100%; display: block; object-fit: contain; padding: 32px; }
+
+    /* ══════════════════════════════════════════
+       BATTERY — light, 3-step process
+    ══════════════════════════════════════════ */
+    #battery {
+      background: var(--light-bg); color: var(--text-dark); padding: 100px 80px;
+    }
+    .battery-header { margin-bottom: 56px; }
+    .battery-header h2 {
+      font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 700; letter-spacing: -0.02em; color: var(--text-dark); margin-bottom: 16px;
+    }
+    .battery-header p { font-size: 0.92rem; color: var(--text-body); line-height: 1.75; max-width: 560px; }
+    .battery-image-wrap {
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.10);
+      background: #fff; margin-bottom: 48px;
+    }
+    .battery-image-wrap img { width: 100%; display: block; object-fit: contain; padding: 32px; }
+    .battery-steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+    .battery-step {
+      padding: 28px; background: #fff; border: 1px solid var(--border-light); border-radius: 16px;
+    }
+    .battery-step-num {
+      font-family: var(--font-serif); font-size: 2.5rem; font-weight: 900;
+      color: var(--green-main); opacity: 0.25; line-height: 1; margin-bottom: 12px;
+    }
+    .battery-step h4 { font-size: 0.95rem; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; }
+    .battery-step p { font-size: 0.82rem; color: var(--text-body); line-height: 1.65; }
+
+    /* ══════════════════════════════════════════
+       CTA SECTION
+    ══════════════════════════════════════════ */
+    #cta {
+      background: var(--dark-mid); padding: 100px 80px; text-align: center;
+      border-top: 1px solid var(--border-dark);
+    }
+    #cta h2 {
+      font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 700; color: #fff; letter-spacing: -0.02em; margin-bottom: 20px;
+    }
+    #cta p { font-size: 1rem; color: var(--text-muted); max-width: 480px; margin: 0 auto 48px; line-height: 1.7; }
+    .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-outline-green {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 600;
+      color: var(--green-bright); border: 1.5px solid var(--green-bright); border-radius: 100px;
+      padding: 13px 28px; text-decoration: none; transition: background 0.2s, color 0.2s;
+    }
+    .btn-outline-green:hover { background: var(--green-bright); color: #000; }
+
+    /* ══════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════ */
+    footer {
+      background: var(--dark); padding: 40px 80px;
+      border-top: 1px solid var(--border-dark);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .footer-logo img { height: 28px; width: auto; }
+    .footer-logo-text { font-size: 0.75rem; font-weight: 700; color: rgba(255,255,255,0.5); letter-spacing: 0.05em; }
+    footer p { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+    .footer-back {
+      font-size: 0.8rem; color: var(--green-main); text-decoration: none; font-weight: 600;
+      transition: color 0.2s;
+    }
+    .footer-back:hover { color: var(--green-bright); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      nav .nav-links { display: none; }
+      #overview, #catalog, #exploded, #battery, #cta, footer { padding-left: 24px; padding-right: 24px; }
+      .overview-grid, .catalog-layout { grid-template-columns: 1fr; gap: 40px; }
+      .parts-grid { grid-template-columns: repeat(2,1fr); }
+      .battery-steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="Screenshot logo.png" alt="Living Lab Rwanda" />
+    <span class="nav-logo-text">LIVING LAB<br>RWANDA</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="product.html" class="active">e-SUKA</a></li>
+    <li><a href="index.html#agriculture">Agriculture</a></li>
+    <li><a href="index.html#innovation">Innovation</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="index.html#contact" class="btn-ghost">Partner with us</a>
+    <a href="index.html#contact" class="btn-primary">Request a Demo</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     HERO — Video background
+══════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-video-wrap">
+    <video autoplay muted loop playsinline>
+      <source src="content/VIDEO-DEMO.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-video-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Electric Agricultural Tiller · Made in Rwanda
+    </div>
+    <h1 class="hero-title">
+      The <em>e-SUKA.</em><br>Built for Africa's<br>Farms.
+    </h1>
+    <p class="hero-sub">
+      The first electric tiller engineered from the ground up for Rwanda's volcanic slopes, smallholder plots, and the real economics of African farming.
+    </p>
+    <div class="hero-cta">
+      <a href="index.html#contact" class="btn-green-lg">Request a Demo</a>
+      <a href="#overview" class="btn-outline-white">Discover the machine ↓</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    SCROLL
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     OVERVIEW — Description + Specs
+══════════════════════════════════════════ -->
+<section id="overview">
+  <div class="section-label fade-up">
+    <span class="section-label-dot"></span>
+    Product Overview
+  </div>
+  <div class="overview-grid">
+    <div class="overview-text fade-up">
+      <h2>An agricultural machine that actually works for African farmers.</h2>
+      <p>
+        The e-SUKA is a locally engineered electric tiller designed specifically for the terrain, economics, and conditions of Rwandan smallholder farming. Every component — from the levelling tyre system to the swappable battery — was designed by field research, not assumptions.
+      </p>
+      <p>
+        Unlike imported machines built for flat European fields, the e-SUKA handles 30° volcanic terraces, fits narrow plot rows, and generates income beyond tilling through its modular transport and energy platform.
+      </p>
+    </div>
+    <div class="specs-grid fade-up">
+      <div class="spec-card">
+        <div class="spec-label">Motor Power</div>
+        <div class="spec-value">8<span class="spec-unit">HP</span></div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Slope Capacity</div>
+        <div class="spec-value">30<span class="spec-unit">°</span></div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Daily Income Potential</div>
+        <div class="spec-value">20k<span class="spec-unit">RWF</span></div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Endurance Rating</div>
+        <div class="spec-value">500<span class="spec-unit">hrs</span></div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Drive System</div>
+        <div class="spec-value" style="font-size:1.1rem">Electric</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Cost vs Import</div>
+        <div class="spec-value">−50<span class="spec-unit">%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     CATALOG — Full machine view
+══════════════════════════════════════════ -->
+<section id="catalog">
+  <div class="section-label fade-up">
+    <span class="section-label-dot"></span>
+    Technical Catalog
+  </div>
+  <div class="catalog-layout">
+    <div class="catalog-text fade-up">
+      <h2>A complete electric agricultural mobility platform.</h2>
+      <p>
+        The e-SUKA is more than a tiller. It is a modular platform capable of switching between three modes of operation — each generating revenue for the smallholder farmer.
+      </p>
+      <p>
+        Engineered using DFMA (Design for Manufacturing and Assembly) principles, every part is locally sourceable, locally serviceable, and locally manufacturable.
+      </p>
+      <ul class="feature-list">
+        <li>Tilling mode — works steep 30° terraced plots</li>
+        <li>Transport mode — carry loads between farm and market</li>
+        <li>Energy mode — mobile power station for off-grid use</li>
+        <li>Plough attachment for deeper soil preparation</li>
+        <li>Levelling tyre system for uneven terrain stability</li>
+      </ul>
+    </div>
+    <div class="catalog-image-wrap fade-up">
+      <img src="esuka-catalog.jpg" alt="e-SUKA Electric Tiller — Full View" />
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     TRANSPORT — Extension module
+══════════════════════════════════════════ -->
+<section id="transport">
+  <div class="section-label fade-up">
+    <span class="section-label-dot"></span>
+    Transport Extension · Beyond the Field
+  </div>
+
+  <div class="transport-intro">
+    <div class="transport-text fade-up">
+      <h2>When the harvest is done, the work is not over.</h2>
+      <p>
+        In rural Rwanda, getting crops from the farm to the market is one of the biggest unsolved challenges. Roads are steep and unpaved. Manual porterage costs time, money, and physical health. Hired trucks are unaffordable for most smallholders.
+      </p>
+      <p>
+        The e-SUKA transport extension turns the tiller into a cargo vehicle — the same machine that works your land in the morning carries your harvest to market in the afternoon. One investment. Two revenue streams.
+      </p>
+
+      <div class="transport-problems" style="margin-top: 32px;">
+        <div class="tp-card fade-up">
+          <h4>Post-harvest loss</h4>
+          <p>Up to 30% of crops are lost before reaching market due to lack of affordable transport and long carry times on foot.</p>
+        </div>
+        <div class="tp-card fade-up">
+          <h4>No affordable last-mile vehicle</h4>
+          <p>Motorcycles can't carry volume. Trucks are too expensive. Farmers are left carrying 50kg loads on their backs down mountain paths.</p>
+        </div>
+        <div class="tp-card fade-up">
+          <h4>Income lost every day</h4>
+          <p>A farmer who can't move produce fast loses negotiating power at market — forced to sell at low prices or let crops spoil.</p>
+        </div>
+        <div class="tp-card fade-up">
+          <h4>The e-SUKA answer</h4>
+          <p>The cargo trailer extension attaches in minutes. 1,500mm bed, 620mm width — built to navigate Rwanda's narrow farm tracks.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="transport-image-wrap fade-up">
+      <img src="esuka-transport.jpg" alt="e-SUKA Transport Extension — Cargo Mode" />
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     EXPLODED — Main parts breakdown
+══════════════════════════════════════════ -->
+<section id="exploded">
+  <div class="exploded-header fade-up">
+    <div class="section-label" style="justify-content:center">
+      <span class="section-label-dot"></span>
+      Engineering
+    </div>
+    <h2>Main Parts — Exploded View</h2>
+    <p>8 core assemblies, all engineered for local manufacturing, local maintenance, and long-term field reliability.</p>
+  </div>
+
+  <div class="exploded-image-wrap fade-up">
+    <img src="esuka-exploded.jpg" alt="e-SUKA Main Parts Exploded View" />
+  </div>
+
+  <div class="parts-grid">
+    <div class="part-card fade-up">
+      <div class="part-num">Part 01</div>
+      <div class="part-name">Handle Assembly</div>
+    </div>
+    <div class="part-card fade-up">
+      <div class="part-num">Part 02</div>
+      <div class="part-name">Body Covers</div>
+    </div>
+    <div class="part-card fade-up">
+      <div class="part-num">Part 03</div>
+      <div class="part-name">Internal Frame</div>
+    </div>
+    <div class="part-card fade-up">
+      <div class="part-num">Part 04</div>
+      <div class="part-name">Chassis Frame</div>
+    </div>
+    <div class="part-card fade-up">
+      <div class="part-num">Part 05</div>
+      <div class="part-name">Rear Axle</div>
+    </div>
+    <div class="part-card fade-up">
+      <div class="part-num">Part 06</div>
+      <div class="part-name">Tyres</div>
+    </div>
+    <div class="part-card fade-up">
+      <div class="part-num">Part 07</div>
+      <div class="part-name">Plough</div>
+    </div>
+    <div class="part-card fade-up">
+      <div class="part-num">Part 08</div>
+      <div class="part-name">Levelling Tyre System</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     BATTERY — Swappable battery system
+══════════════════════════════════════════ -->
+<section id="battery">
+  <div class="battery-header fade-up">
+    <div class="section-label">
+      <span class="section-label-dot"></span>
+      Power System
+    </div>
+    <h2>Swappable Battery. Zero Downtime.</h2>
+    <p>
+      The e-SUKA's battery is designed for fast field-side swapping. When one battery depletes, the farmer swaps to a charged unit in under a minute — no tools required. The depleted battery charges while work continues.
+    </p>
+  </div>
+
+  <div class="battery-image-wrap fade-up">
+    <img src="esuka-battery.jpg" alt="e-SUKA Battery Insertion Process" />
+  </div>
+
+  <div class="battery-steps">
+    <div class="battery-step fade-up">
+      <div class="battery-step-num">01</div>
+      <h4>Open the battery door</h4>
+      <p>The side-access battery door opens without tools. Designed for one-hand operation even while wearing farming gloves.</p>
+    </div>
+    <div class="battery-step fade-up">
+      <div class="battery-step-num">02</div>
+      <h4>Slide in the battery</h4>
+      <p>The battery slides into the chassis frame on guide rails. A single click confirms secure contact with the power terminals.</p>
+    </div>
+    <div class="battery-step fade-up">
+      <div class="battery-step-num">03</div>
+      <h4>Ready to work</h4>
+      <p>The e-SUKA powers on automatically. Full charge indicator on the handlebar display confirms capacity before the next plot.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     CTA
+══════════════════════════════════════════ -->
+<section id="cta">
+  <h2 class="fade-up">Ready to bring the e-SUKA<br>to your farm or district?</h2>
+  <p class="fade-up">Partner with Living Lab Rwanda — for demos, distribution, or R&D collaboration.</p>
+  <div class="cta-btns fade-up">
+    <a href="index.html#contact" class="btn-green-lg">Request a Demo</a>
+    <a href="index.html#contact" class="btn-outline-green">Partner with us</a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <a href="index.html" class="footer-logo">
+    <img src="Screenshot logo.png" alt="Living Lab Rwanda" />
+    <span class="footer-logo-text">LIVING LAB RWANDA</span>
+  </a>
+  <p>© 2026 Living Lab Rwanda. All rights reserved.</p>
+  <a href="index.html" class="footer-back">← Back to Home</a>
+</footer>
+
+<script>
+  // Fade-up on scroll
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(e => e.isIntersecting && e.target.classList.add('visible')),
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+</script>
+</body>
+</html>
