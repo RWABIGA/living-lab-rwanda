@@ -328,13 +328,54 @@
     .footer-back:hover { color: var(--green-bright); }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      nav { padding: 0 24px; }
+    @media (max-width: 860px) {
+      /* NAV — hide links + "Partner with us", keep logo + CTA only */
+      nav { padding: 0 20px; height: 60px; background: rgba(11,15,10,0.96); }
       nav .nav-links { display: none; }
-      #overview, #catalog, #exploded, #battery, #cta, footer { padding-left: 24px; padding-right: 24px; }
-      .overview-grid, .catalog-layout { grid-template-columns: 1fr; gap: 40px; }
-      .parts-grid { grid-template-columns: repeat(2,1fr); }
-      .battery-steps { grid-template-columns: 1fr; }
+      .btn-ghost { display: none; }
+      .btn-primary { font-size: 0.78rem; padding: 8px 16px; }
+
+      /* HERO */
+      .hero-content { padding: 80px 20px 48px; }
+      .hero-title { font-size: clamp(2.4rem, 10vw, 3.5rem); }
+      .hero-cta { flex-direction: column; align-items: center; gap: 12px; }
+      .btn-green-lg, .btn-outline-white { width: 100%; justify-content: center; }
+      .hero-scroll { display: none; }
+
+      /* ALL SECTIONS — padding */
+      #overview, #catalog, #exploded, #transport, #battery, #cta { padding: 64px 20px; }
+      footer { padding: 32px 20px; flex-direction: column; align-items: flex-start; gap: 16px; }
+
+      /* OVERVIEW — stack */
+      .overview-grid { grid-template-columns: 1fr; gap: 40px; }
+      .specs-grid { grid-template-columns: 1fr 1fr; }
+
+      /* CATALOG — image below text */
+      .catalog-layout { grid-template-columns: 1fr; gap: 36px; }
+
+      /* TRANSPORT — stack */
+      .transport-intro { grid-template-columns: 1fr; gap: 36px; }
+      .transport-problems { grid-template-columns: 1fr; gap: 12px; }
+
+      /* EXPLODED */
+      .exploded-image-wrap img { padding: 20px; }
+      .parts-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+      /* BATTERY */
+      .battery-image-wrap img { padding: 16px; }
+      .battery-steps { grid-template-columns: 1fr; gap: 16px; }
+
+      /* CTA */
+      #cta h2 { font-size: clamp(1.8rem, 7vw, 2.8rem); }
+      .cta-btns { flex-direction: column; align-items: center; }
+      .btn-green-lg, .btn-outline-green { width: 100%; justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title { font-size: clamp(2rem, 9vw, 2.8rem); }
+      .specs-grid { grid-template-columns: 1fr; }
+      .parts-grid { grid-template-columns: 1fr; }
+      #overview, #catalog, #exploded, #transport, #battery, #cta { padding: 48px 16px; }
     }
   </style>
 </head>

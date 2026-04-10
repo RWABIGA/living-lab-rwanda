@@ -541,41 +541,77 @@
       .agri-content { padding: 48px 40px 60px; }
       footer { padding: 36px 40px; }
       .contact-left, .contact-right { padding: 60px 40px; }
-      .product-canvas { grid-template-columns: 280px 1fr; }
       .innovation-roadmap { padding: 36px; }
     }
+
     @media (max-width: 860px) {
+      /* NAV — hide links + "Partner with us", keep only logo + CTA button */
       .nav-links { display: none; }
-      #stats { grid-template-columns: 1fr; }
-      .stats-right { border-left: none; border-top: 1px solid var(--border-dark); padding-left: 0; padding-top: 40px; }
-      .product-intro { grid-template-columns: 1fr; gap: 40px; }
-      .product-canvas { grid-template-columns: 1fr; }
-      .canvas-sidebar { border-right: none; border-bottom: 1px solid var(--border-light); }
-      .innovation-intro, .innovation-roadmap { grid-template-columns: 1fr; gap: 36px; }
-      .innovation-grid { grid-template-columns: 1fr; }
-      /* Agriculture responsive */
-      .agri-hero { flex-direction: column; align-items: stretch; padding: 100px 24px 48px; gap: 32px; min-height: auto; }
+      .btn-ghost { display: none; }
+      nav { padding: 0 20px; height: 60px; }
+      .btn-primary { font-size: 0.78rem; padding: 8px 16px; }
+
+      /* HERO */
+      .hero-side-text { display: none; }
+      .hero-content { padding: 80px 20px 0; }
+
+      /* STATS — scrollable horizontal row */
+      #stats {
+        display: flex; flex-direction: row;
+        overflow-x: auto; gap: 0;
+        padding: 48px 0; scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+      }
+      #stats::-webkit-scrollbar { display: none; }
+      .stat-item {
+        min-width: 200px; flex-shrink: 0;
+        padding: 24px 28px; scroll-snap-align: start;
+        border-right: 1px solid var(--border-dark); border-top: none;
+      }
+      .stats-right { border-left: none; border-top: none; padding-left: 0; padding-top: 0; }
+
+      /* PRODUCT — stack video on top, text below */
+      #product { padding: 60px 20px 48px; }
+      .product-teaser { grid-template-columns: 1fr; gap: 36px; }
+      .product-teaser .product-video-wrap { order: -1; }
+      .product-advantages { grid-template-columns: 1fr; gap: 16px; }
+
+      /* AGRICULTURE */
+      #agriculture .section-label { padding: 48px 20px 0; }
+      .agri-hero { flex-direction: column; align-items: stretch; padding: 24px 20px 40px; gap: 28px; min-height: auto; }
       .agri-card { width: 100%; }
-      .agri-hero-deco { align-items: flex-start; }
-      .agri-big-word { font-size: clamp(2.8rem, 12vw, 5rem); }
-      .agri-content { padding: 48px 24px 64px; }
+      .agri-hero-deco { display: none; }
+      .agri-content { padding: 48px 20px 56px; }
       .agri-problems { grid-template-columns: 1fr; }
-      .agri-compare-head, .agri-compare-row { grid-template-columns: 120px 1fr 1fr 1fr; }
-      .agri-compare-head > div, .agri-compare-row > div { padding: 10px 12px; font-size: 0.70rem; }
+      /* Comparison table — horizontally scrollable */
+      .agri-compare-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .agri-compare-head, .agri-compare-row { grid-template-columns: 110px 120px 120px 120px; min-width: 490px; }
+      .agri-compare-head > div, .agri-compare-row > div { padding: 10px 10px; font-size: 0.68rem; }
       .compare-tag { font-size: 0.60rem; padding: 2px 6px; }
-      /* Contact */
+
+      /* INNOVATION */
+      #innovation { padding: 60px 20px; }
+      .innovation-intro, .innovation-roadmap { grid-template-columns: 1fr; gap: 32px; }
+      .innovation-grid { grid-template-columns: 1fr; }
+
+      /* CONTACT */
       .contact-inner { grid-template-columns: 1fr; }
+      .contact-left, .contact-right { padding: 48px 20px; }
       .contact-right { border-left: none; border-top: 1px solid rgba(255,255,255,0.07); }
       .form-row { grid-template-columns: 1fr; }
-      footer { flex-direction: column; align-items: flex-start; gap: 16px; }
+
+      /* FOOTER */
+      footer { flex-direction: column; align-items: flex-start; gap: 16px; padding: 32px 20px; }
+      .footer-links { flex-direction: column; gap: 10px; }
     }
-    @media (max-width: 560px) {
-      .agri-compare-head, .agri-compare-row { grid-template-columns: 90px 1fr 1fr 1fr; }
-      .agri-compare-head > div, .agri-compare-row > div { padding: 8px 8px; font-size: 0.65rem; }
-      .agri-hero { padding: 90px 20px 40px; }
-      .agri-content { padding: 40px 20px 56px; }
-      nav { padding: 0 20px; }
-      #stats, #product, #innovation { padding-left: 20px; padding-right: 20px; }
+
+    @media (max-width: 480px) {
+      .hero-title { font-size: clamp(2.2rem, 11vw, 3.2rem); }
+      .agri-hero { padding: 20px 16px 36px; }
+      .agri-content { padding: 36px 16px 48px; }
+      #product { padding: 48px 16px; }
+      #innovation { padding: 48px 16px; }
+      .contact-left, .contact-right { padding: 36px 16px; }
     }
   </style>
 </head>
